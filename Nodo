@@ -1,0 +1,6 @@
+  class Nodo:
+	def __init__(self, valor, Padre):
+		self.valor=valor
+		self.Izquierdo=None
+		self.Derecho=None
+		self.Padre=Padre
