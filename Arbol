@@ -1,0 +1,133 @@
+from Nodo import *
+from Cola import *
+class Arbol:
+
+	def __init__(self, Lista):
+		self.Lista=Lista
+	
+	def CreaRaiz(self, Lista):
+		if Lista.numElem()>2:
+			Arbol=Nodo(Lista.primero(), None)	
+			print ("nodo ",Arbol.valor)
+			Lista.sacar()
+			tipoDeValor=self.Tipo(Lista.primero()) 
+			if tipoDeValor==1: #valor entero
+				print "Esto es una hoja"
+				Arbol.Izquierdo=Nodo(Lista.primero(),Arbol)
+				print ("nodo ",Arbol.Izquierdo.valor)
+				Lista.sacar()
+				Arbol.Derecho=Nodo(None,Arbol)
+				self.ColaPasoArbolPrefijo(Lista, Arbol.Derecho)
+			elif tipoDeValor==0:
+				print "operador matematico"	
+				Arbol.Izquierdo=Nodo(None,Arbol)				
+				self.ColaPasoArbolPrefijo(Lista, Arbol.Izquierdo)
+				Arbol.Derecho=Nodo(None,Arbol)				
+				self.ColaPasoArbolPrefijo(Lista, Arbol.Derecho)
+
+		return Arbol
+
+	def ColaPasoArbolPrefijo(self, Lista,Arbol): # raiz izquierda derecha
+		
+		if Lista.numElem()>0:
+			print "numero de Elementos de la lista ", Lista.primero()
+			print (Lista.numElem())		
+			print "Esta rama ya no es nula"
+				
+			tipoDeValor=self.Tipo(Lista.primero()) 
+			if tipoDeValor==1: #valor entero
+				print "Esto es una hoja grande" 
+				Arbol.valor=Lista.primero()
+				print ("nodo ",Arbol.valor)
+				Lista.sacar()	
+						
+			elif tipoDeValor==0:
+				print "operador matematico grande"
+				Arbol.valor=Lista.primero()
+				Lista.sacar()						
+				print ("nodo ",Arbol.valor)
+
+				tipoDeValor=self.Tipo(Lista.primero()) 
+				print "llega aca", tipoDeValor
+				if tipoDeValor==1:
+					print "Esto es una hoja" 
+					Arbol.Izquierdo=Nodo(None,Arbol)
+					self.ColaPasoArbolPrefijo(Lista, Arbol.Izquierdo)
+					Arbol.Derecho=Nodo(None,Arbol)
+					self.ColaPasoArbolPrefijo(Lista, Arbol.Derecho)						
+				elif tipoDeValor==0:
+					print "operador matematico"	
+					Arbol.Izquierdo=Nodo(None,Arbol)				
+					self.ColaPasoArbolPrefijo(Lista, Arbol.Izquierdo)
+
+			elif tipoDeValor==2:
+				print " no hay un valor valido"	
+
+
+		else: print "ya no hay mas por agregar a este bello eucalipto"
+
+
+	def Tipo(self,valor):# 0 operaciones 1 numero entero 2 paila
+		if valor=='+':
+			numero=0
+		elif valor=='-':
+			numero=0
+		elif valor=='/':
+			numero=0
+		elif valor=='*':
+			numero=0
+		else:
+			numero=2
+			try:
+				num= int(valor)
+				numero=1
+			except Exception as e:
+				print "Este valor no es numerico "
+		return numero
+
+
+	def imprimirPreorden(self, arbol):
+		print("entra")
+		if arbol==None:
+			#print "acabo"
+			return None
+			#self.imprimirPreorden(arbol.Padre.Derecho)
+		else:
+			print("valor ",arbol.valor)
+			self.imprimirPreorden(arbol.Izquierdo)
+			self.imprimirPreorden(arbol.Derecho)
+
+	def evaluar(self,arbol):
+		if arbol.valor=='+':
+			return self.evaluar(arbol.Izquierdo)+ self.evaluar(arbol.Derecho)
+		elif arbol.valor=='-':
+			return self.evaluar(arbol.Izquierdo)- self.evaluar(arbol.Derecho)
+		elif arbol.valor=='/':
+			return self.evaluar(arbol.Izquierdo)/ self.evaluar(arbol.Derecho)
+		elif arbol.valor=='*':
+			return self.evaluar(arbol.Izquierdo)* self.evaluar(arbol.Derecho)
+		else: return arbol.valor
+
+
+pr=Cola();
+pr.meter("+")
+pr.meter("-")
+pr.meter(7)
+pr.meter("/")
+pr.meter(4)
+pr.meter(2)
+pr.meter(3)
+
+
+#pr.meter("+")
+#pr.meter(4)
+#pr.meter(3)
+
+
+
+p=Arbol(pr)
+
+eucalipto=p.CreaRaiz(pr)
+p.ColaPasoArbolPrefijo(pr, None)
+p.imprimirPreorden(eucalipto)
+print p.evaluar(eucalipto)
