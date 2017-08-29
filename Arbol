@@ -12,7 +12,7 @@ class Arbol:
 			Lista.sacar()
 			tipoDeValor=self.Tipo(Lista.primero()) 
 			if tipoDeValor==1: #valor entero
-				print "Esto es una hoja"
+				print "Hoja"
 				Arbol.Izquierdo=Nodo(Lista.primero(),Arbol)
 				print ("nodo ",Arbol.Izquierdo.valor)
 				Lista.sacar()
@@ -32,7 +32,7 @@ class Arbol:
 		if Lista.numElem()>0:
 			print "numero de Elementos de la lista ", Lista.primero()
 			print (Lista.numElem())		
-			print "Esta rama ya no es nula"
+			print "no nula"
 				
 			tipoDeValor=self.Tipo(Lista.primero()) 
 			if tipoDeValor==1: #valor entero
@@ -61,10 +61,10 @@ class Arbol:
 					self.ColaPasoArbolPrefijo(Lista, Arbol.Izquierdo)
 
 			elif tipoDeValor==2:
-				print " no hay un valor valido"	
+				print "No hay Valor  valido "	
 
 
-		else: print "ya no hay mas por agregar a este bello eucalipto"
+		else: print " fin arbol"
 
 
 	def Tipo(self,valor):# 0 operaciones 1 numero entero 2 paila
