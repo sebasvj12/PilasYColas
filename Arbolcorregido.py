@@ -1,9 +1,12 @@
 import sys
+import nodo
+import pila
 
-class Variable:
-      def __init__(self, nombre, valor):
-        self.nombre=nombre
+class Nodo():
+    def __init__(self,valor,izq=None,der=None):
         self.valor=valor
+        self.izq=izq
+        self.der=der
         
 class Pila:
      def __init__(self):
@@ -23,12 +26,13 @@ class Pila:
 
      def tamano(self):
          return len(self.items)
-        
-class Nodo():
-    def __init__(self,valor,izq=None,der=None):
+      
+class val:
+      def __init__(self, nombre, valor):
+        self.nombre=nombre
         self.valor=valor
-        self.izq=izq
-        self.der=der
+        
+
 def evaluar(arbol):
     try:
       if(arbol.valor == '+'):
@@ -47,34 +51,33 @@ def evaluar(arbol):
 opcion = '0'
 lista = []
 while (opcion!='2'):
-    opcion = raw_input("Digite 1 o 2 \n 1. Agregar operación \n 2. Finalizar programa \n")
+    opcion = raw_input("\n 1. Ingresar posfijo  \n 2. Cerrar \n")
     if (opcion == '1'):                    
-        p=Pila()
-        cadena= raw_input("Ingrese la operacion en notacion postfija: ")
+        pil=Pila()
+        cadena= raw_input("Ingrese posfijo: ")
         notacion=cadena.split(" ")
 
         for i in range(len(notacion)-1):
             if notacion[i+1] == '=':
-                valor = evaluar(p.extraer())
+                valor = evaluar(pil.extraer())
                 print(notacion[i] + ' = ' + str(valor))
-                variable = Variable(notacion[i],valor)
-                lista.append(variable)
+                valor = val(notacion[i],valor)
+                lista.append(valor)
             else:
                 if(notacion[i]!='+' and notacion[i]!='-' and notacion[i]!='*' and notacion[i]!='/'):
                     if (notacion[i].isalpha()):
                          for j in range (len(lista)):
                               if (lista[j].nombre==notacion[i]):
-                                   p.incluir(lista[j].valor)                  
+                                   pil.incluir(lista[j].valor)                  
                     else:  
-                         p.incluir(notacion[i])
+                         pil.incluir(notacion[i])
                 else:
-                    num1=p.extraer()
-                    num2=p.extraer()
+                    num1=pil.extraer()
+                    num2=pil.extraer()
                     nodo=Nodo(notacion[i],num2,num1)
-                    p.incluir(nodo)        
+                    pil.incluir(nodo)        
     else:
         if (opcion == '2'):
-            print ("Gracias")  
+          sys.exit()  
         else:
-            print ("Digite una opcion valida")
-
+            print ("Opcion No Valida")
